@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+root_dir=$1
+transactions="$root_dir/transactions.csv"
+monthly="$root_dir/month-biweek.csv"
+monthly_temp="$root_dir/month-biweek_temp.csv"
+temp="$root_dir/temp.csv"
+md_table="$root_dir/month-biweek.md"
+
+rm $md_table $monthly
+
+bat $transactions | \
+	csvq -g -o $monthly_temp -s month-biweek.sql
+
+
+bat $monthly_temp | \
+	csvq -g -o $temp -s month.sql
+
+qsv cat rows $monthly_temp $temp -o $monthly 
+pandoc -f csv -t gfm $monthly -o $md_table
+rm $monthly_temp $temp
+bat $md_table

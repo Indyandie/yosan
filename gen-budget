@@ -1,0 +1,110 @@
+#!/usr/bin/env zsh
+
+root_dir=$1
+month=$(echo $root_dir | sd ".*/([0-9\-]+)" "\$1")
+
+md_output="$root_dir/$month-budget.md"
+mer_dir="$root_dir/mer"
+mmdc_ouput="$root_dir/mer/$month-budget-mmdc.md"
+rm "$md_output"
+
+month_table=$(./month-biweek $root_dir)
+category_table=$(./category $root_dir)
+
+category_pie_chart=$(bat "$root_dir/category.csv" | qsv select 1,3 | qsv behead | sd "," " : " | sd '^(\w+)' '\t"$1"')
+
+xaxis=$(bat "$root_dir/month-biweek.csv" | qsv transpose | qsv select 1 | qsv behead | sd '\n(\w)' ", \$1")
+bar_half1=$(bat "$root_dir/month-biweek.csv" | qsv transpose | qsv select 2 | qsv behead | sd '\n([0-9-])' ", \$1")
+bar_half2=$(bat "$root_dir/month-biweek.csv" | qsv transpose | qsv select 3 | qsv behead | sd '\n([0-9-])' ", \$1")
+bar_month=$(bat "$root_dir/month-biweek.csv" | qsv transpose | qsv select 4 | qsv behead | sd '\n([0-9-])' ", \$1")
+yaxis_max=5500
+yaxis_month_max=8500
+
+catetory_xaxis=$(bat "$root_dir/category.csv" | qsv select 1  | qsv behead | sd '\n(\w)' ", \$1")
+catetory_bar_budget=$(bat "$root_dir/category.csv" | qsv select 2  | qsv behead | sd '\n([0-9-])' ", \$1")
+catetory_bar_spent=$(bat "$root_dir/category.csv" | qsv select 3  | qsv behead | sd '\n([0-9-])' ", \$1")
+
+xyconf="--- 
+config: 
+   themeVariables:
+      xyChart: 
+         backgroundColor: \"#000\"
+         plotColorPalette: \"#ffac1c, #097969\"
+---"
+
+markdown="# Budget $month
+
+$month_table
+
+### Half 01
+
+\`\`\`mermaid
+$xyconf
+xychart-beta horizontal
+    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    y-axis \"Amount\" 0 --> $yaxis_max
+    x-axis [$xaxis]
+    bar [$bar_half1]
+\`\`\`
+
+### Half 02
+
+\`\`\`mermaid
+$xyconf
+xychart-beta horizontal
+    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    y-axis \"Amount\" 0 --> $yaxis_max
+    x-axis [$xaxis]
+    bar [$bar_half2]
+\`\`\`
+
+### Month
+
+\`\`\`mermaid
+$xyconf
+xychart-beta horizontal 
+    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    y-axis \"Amount\" 0 --> $yaxis_month_max
+    x-axis [$xaxis]
+    bar [$bar_month]
+\`\`\`
+
+## Categories
+
+\`\`\`mermaid
+%%{init: {\"pie\": {\"textPosition\": 0.9}, \"themeVariables\": {\"pieOuterStrokeWidth\": \"2px\"}} }%%
+pie showData
+   title Categories
+$category_pie_chart
+\`\`\`
+
+$category_table
+
+### Budget
+
+\`\`\`mermaid
+$xyconf
+xychart-beta
+    title \"Budget vs. Spending\"
+    y-axis \"Amount\" 0 --> 3000
+    x-axis [$catetory_xaxis]
+    bar [$catetory_bar_budget]
+    bar [$catetory_bar_spent]
+\`\`\`
+
+"
+echo $markdown > "$md_output"
+bat "$md_output" | cb cp
+
+mkdir "$mer_dir"
+mmdc -i "$md_output" -o "$mmdc_ouput" -t dark -b black -e png
+
+cd $mer_dir
+
+pandoc -f gfm -t pdf -o "./budget-$month.pdf" *.md
+
+cd -
+
+cp "$root_dir/mer/budget-$month.pdf" "./"
+
+rm -rf $mer_dir

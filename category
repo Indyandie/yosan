@@ -1,0 +1,14 @@
+#!/usr/bin/env zsh
+
+root_dir=$1
+transactions="$root_dir/transactions.csv"
+category="$root_dir/category.csv"
+md_table="$root_dir/category.md"
+
+rm $category $md_table
+
+bat $transactions | \
+	csvq -g -o $category -s category.sql
+
+pandoc -f csv -t gfm $category -o $md_table
+bat $md_table
