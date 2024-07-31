@@ -15,8 +15,12 @@ bat $transactions | \
 
 bat $monthly_temp | \
 	csvq -g -o $temp -s month.sql
+if command -v qsv &>/dev/null; then
+    qsv cat rows $monthly_temp $temp -o $monthly
+else
+    qsvlite cat rows $monthly_temp $temp -o $monthly
+fi
 
-qsv cat rows $monthly_temp $temp -o $monthly 
 pandoc -f csv -t gfm $monthly -o $md_table
 rm $monthly_temp $temp
 bat $md_table
