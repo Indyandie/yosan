@@ -116,10 +116,10 @@ mmdc -i "$md_output" -o "$mmdc_ouput" -t dark -b black -e png
 
 cd $mer_dir
 
-pandoc -f gfm -t pdf -o "./budget-$month.pdf" *.md
+pandoc -f gfm -t pdf -o "./budget-$month.pdf" *.md --pdf-engine pdflatex
 
 cd -
 
-cp "$root_dir/mer/budget-$month.pdf" "./"
+cp "$root_dir/mer/budget-$month.pdf" "$root_dir"
 
 rm -rf $mer_dir
