@@ -108,10 +108,9 @@ xychart-beta
 \`\`\`
 
 "
-echo $markdown > "$md_output"
-bat "$md_output" | cb cp
+echo $markdown >"$md_output"
 
-mkdir "$mer_dir"
+mkdir $mer_dir
 mmdc -i "$md_output" -o "$mmdc_ouput" -t dark -b black -e png
 
 cd $mer_dir
