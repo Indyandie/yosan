@@ -9,12 +9,12 @@ md_table="$root_dir/month-biweek.md"
 
 rm $md_table $monthly
 
-bat $transactions | \
-	csvq -g -o $monthly_temp -s month-biweek.sql
+bat $transactions |
+    csvq -g -o $monthly_temp -s month-biweek.sql
 
+bat $monthly_temp |
+    csvq -g -o $temp -s month.sql
 
-bat $monthly_temp | \
-	csvq -g -o $temp -s month.sql
 if command -v qsv &>/dev/null; then
     qsv cat rows $monthly_temp $temp -o $monthly
 else
