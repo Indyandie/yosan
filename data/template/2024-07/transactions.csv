@@ -1,0 +1,11 @@
+date,name,category,amount,type
+2024-07-01,cake,food,10.00,spending
+2024-07-02,chips,snacks,1.00,spending
+2024-07-05,car,auto,40.00,spending
+2024-07-09,chips,food,100.00,spending
+2024-07-10,cookies,food,100.00,spending
+2024-07-16,rent,home,200.00,spending
+2024-07-18,dentist,health,300.00,spending
+2024-07-28,medicine,health,100.00,spending
+2024-07-29,pizza,food,100.00,spending
+2024-07-30,more chips,food,100.00,spending
