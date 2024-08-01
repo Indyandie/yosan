@@ -1,21 +1,33 @@
-# Finances
+# yosan (予算) - budget
 
-## Transctions
+## Dependencies
+
+- [bat](https://github.com/sharkdp/bat)
+- [qsv](https://github.com/jqnatividad/qsv)
+- [cvsq](https://github.com/mithrandie/csvq)
+- [pandoc](https://github.com/jgm/pandoc)
+
+## Data
+
+### Transaction Info
+
+Transaction columns.
 
 | name     | Description                        |
 | -------- | ---------------------------------- |
 | date     | transaction date `YYYY-MM-DD`      |
-| weeks    | 1st or 2nd half of the month       |
 | amount   | dollar amount                      |
 | category | spending category                  |
 | name     | human-readable name of transaction |
-| type     | `spend`, `earn`, `budget`          |
+| type     | `spending`, `earning`, `budget`    |
 
-## Categories
+### Categories
+
+Example category values...
 
 | category      | Description                             |
 | ------------- | --------------------------------------- |
-| other         | unknown category                        |
+| other         | misc category                           |
 | auto          | car expenses                            |
 | entertainment | fun stuff                               |
 | food          | meals and groceries                     |
@@ -28,10 +40,10 @@
 | savings       | savings                                 |
 | family        | school, toys, and other expenses        |
 
-## Types
+### Types
 
-| type     | Description    |
-| -------- | -------------- |
-| spending | amount spent   |
-| earning  | amount earned  |
-| budget   | planned amount |
+| type     | Description                             |
+| -------- | --------------------------------------- |
+| spending | amount spent, add to `transactions.csv` |
+| earning  | amount earned, stored in `earnings.csv` |
+| budget   | planned amount, stored in `budget.csv`  |
