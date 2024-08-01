@@ -3,5 +3,4 @@ SELECT
     NUMBER_FORMAT(SUM(earnings), 2, ".", "") AS earnings,
     NUMBER_FORMAT(SUM(actuals), 2, ".", "") AS actuals,
     NUMBER_FORMAT(SUM(budget), 2, ".", "") AS budget
-GROUP BY
-    earnings
+GROUP BY 1

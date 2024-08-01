@@ -1,19 +1,26 @@
 #!/usr/bin/env zsh
 
-root_dir=$1
-transactions="$root_dir/transactions.csv"
-monthly="$root_dir/month-biweek.csv"
-monthly_temp="$root_dir/month-biweek_temp.csv"
-temp="$root_dir/temp.csv"
-md_table="$root_dir/month-biweek.md"
+root_dir="$1/"
+transactions="${root_dir}transactions.csv"
+transactions_all="${root_dir}transactions_all.csv"
+monthly="${root_dir}month-biweek.csv"
+monthly_temp="${root_dir}month-biweek_temp.csv"
+temp="${root_dir}temp.csv"
+md_table="${root_dir}month-biweek.md"
 
 rm $md_table $monthly
 
-bat $transactions |
-    csvq -g -o $monthly_temp -s month-biweek.sql
+if command -v qsv &>/dev/null; then
+    all_transactions=$(qsv cat rows $root_dir(transactions|earnings|budget).csv)
+else
+    all_transactions=$(qsvlite cat rows $root_dir(transactions|earnings|budget).csv)
+fi
 
-bat $monthly_temp |
-    csvq -g -o $temp -s month.sql
+echo $all_transactions | csvq -g -o $transactions_all -s join-transactions.sql
+
+bat $transactions_all | csvq -g -o $monthly_temp -s month-biweek.sql
+
+bat $monthly_temp | csvq -g -o $temp -s month.sql
 
 if command -v qsv &>/dev/null; then
     qsv cat rows $monthly_temp $temp -o $monthly
@@ -22,5 +29,5 @@ else
 fi
 
 pandoc -f csv -t gfm $monthly -o $md_table
-rm $monthly_temp $temp
+rm $monthly_temp $temp $transactions_all
 bat $md_table
