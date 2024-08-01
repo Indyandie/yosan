@@ -1,1 +1,3 @@
 data/*
+!data/template/
+!data/template/2024-07/transactions.csv
