@@ -56,7 +56,7 @@ $month_table
 \`\`\`mermaid
 $xyconf
 xychart-beta horizontal
-    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    title \"Earnings, Spending, Budget\"
     y-axis \"Amount\" 0 --> $yaxis_max
     x-axis [$xaxis]
     bar [$bar_half1]
@@ -67,7 +67,7 @@ xychart-beta horizontal
 \`\`\`mermaid
 $xyconf
 xychart-beta horizontal
-    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    title \"Earnings, Spending, Budget\"
     y-axis \"Amount\" 0 --> $yaxis_max
     x-axis [$xaxis]
     bar [$bar_half2]
@@ -78,7 +78,7 @@ xychart-beta horizontal
 \`\`\`mermaid
 $xyconf
 xychart-beta horizontal 
-    title \"Earnings, Spending, Budget, Diff (earnings - spending)\"
+    title \"Earnings, Spending, Budget\"
     y-axis \"Amount\" 0 --> $yaxis_month_max
     x-axis [$xaxis]
     bar [$bar_month]
