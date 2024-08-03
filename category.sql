@@ -1,8 +1,4 @@
-SELECT
-    category,
-    NUMBER_FORMAT(SUM(IF(type == "budget", amount, 0)), 2, ".", "") AS budget,
-    NUMBER_FORMAT(SUM(IF(type == "spending", amount, 0)), 2, ".", "") AS actuals,
-    NUMBER_FORMAT((budget- actuals), 2, ".", "") AS diff
-GROUP BY
-    category
-
+SELECT category,
+       number_format(sum(if(TYPE == "budget", amount, 0)), 2, ".", "") AS budget,
+       number_format(sum(if(TYPE == "spending", amount, 0)), 2, ".", "") AS spending
+GROUP BY category

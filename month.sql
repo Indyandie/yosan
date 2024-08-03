@@ -1,6 +1,5 @@
-SELECT
-    "month" as date_range,
-    NUMBER_FORMAT(SUM(earnings), 2, ".", "") AS earnings,
-    NUMBER_FORMAT(SUM(actuals), 2, ".", "") AS actuals,
-    NUMBER_FORMAT(SUM(budget), 2, ".", "") AS budget
+SELECT "month" AS date_range,
+       number_format(sum(earning), 2, ".", "") AS earning,
+       number_format(sum(spending), 2, ".", "") AS spending,
+       number_format(sum(budget), 2, ".", "") AS budget
 GROUP BY 1

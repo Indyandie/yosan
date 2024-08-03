@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 root_dir=$1
-transactions="$root_dir/transactions.csv"
+transactions="$root_dir/transactions_all.csv"
 category="$root_dir/category.csv"
 md_table="$root_dir/category.md"
 
