@@ -26,7 +26,7 @@ Transaction columns.
 
 Example category values...
 
-| category      | Description                             |
+| category      | description                             |
 | ------------- | --------------------------------------- |
 | other         | misc category                           |
 | auto          | car expenses                            |
@@ -43,13 +43,13 @@ Example category values...
 
 ## Instructions
 
-1. add directory the current a month's budget, ex. `./data/2024-08`
-1. create files
+1. Add directory for the current month's budget, _ex. `./data/2024-08`_
+1. Create the required files
    - [`transactions.csv`](./data/template/2024-07/transactions.csv)
    - [`budget.csv`](./data/template/2024-07/budget.csv)
    - [`earnings.csv`](./data/template/2024-07/earnings.csv)
-1. populate your data
-1. run script
+1. Populate your data
+1. Run script
    ```sh
    ./gen-budget data/2024-08
    ```
