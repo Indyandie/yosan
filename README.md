@@ -1,5 +1,7 @@
 # yosan (予算) - budget
 
+I hate excel, and recently I can no longer use (collaborate) Apple numbers because my Mac is too old.
+
 ## Dependencies
 
 - [bat](https://github.com/sharkdp/bat)
@@ -13,13 +15,12 @@
 
 Transaction columns.
 
-| name     | Description                        |
+| name     | description                        |
 | -------- | ---------------------------------- |
 | date     | transaction date `YYYY-MM-DD`      |
-| amount   | dollar amount                      |
-| category | spending category                  |
 | name     | human-readable name of transaction |
-| type     | `spending`, `earning`, `budget`    |
+| category | spending category                  |
+| amount   | dollar amount                      |
 
 ### Categories
 
@@ -40,10 +41,18 @@ Example category values...
 | savings       | savings                                 |
 | family        | school, toys, and other expenses        |
 
-### Types
+## Instructions
 
-| type     | Description                             |
-| -------- | --------------------------------------- |
-| spending | amount spent, add to `transactions.csv` |
-| earning  | amount earned, stored in `earnings.csv` |
-| budget   | planned amount, stored in `budget.csv`  |
+1. add directory the current a month's budget, ex. `./data/2024-08`
+1. create files
+   - [`transactions.csv`](./data/template/2024-07/transactions.csv)
+   - [`budget.csv`](./data/template/2024-07/budget.csv)
+   - [`earnings.csv`](./data/template/2024-07/earnings.csv)
+1. populate your data
+1. run script
+   ```sh
+   ./gen-budget data/2024-08
+   ```
+1. Profit!!!
+   - [markdown](./data/template/2024-07/2024-07-budget.md)
+   - [pdf](./data/template/2024-07/budget-2024-07.pdf)
