@@ -10,9 +10,12 @@ xyconf="---
 config: 
    themeVariables:
       xyChart: 
-         backgroundColor: \"#000\"
          plotColorPalette: \"#ffac1c, #097969\"
 ---"
+
+# xyChart:
+#    backgroundColor: \"#000\"
+#    plotColorPalette: \"#ffac1c, #097969\"
 
 month_charts() {
     if command -v qsv &>/dev/null; then
@@ -117,11 +120,21 @@ $(category_charts)
 
     echo "$markdown" >"$md_output"
     mkdir $mer_dir
-    mmdc -i "$md_output" -o "$mmdc_ouput" -t dark -b black -e png
+    # mmdc -i "$md_output" -o "$mmdc_ouput" -t dark -b black -e png
+    mmdc -i "$md_output" -o "$mmdc_ouput" -e png
 
+    cp pdf.css "$mer_dir/" # NOT READY
     cd $mer_dir
+    pandoc -o temp.html -t html -f gfm *.md
 
-    pandoc -f gfm -t pdf -o "./budget-$month.pdf" *.md --pdf-engine pdflatex
+    # pandoc -f gfm -t pdf -o "./budget-$month.pdf" *.md \ # HTML to PDF seems smoother
+        # --pdf-engine weasyprint \ # pdflatex
+    pandoc -f html -t pdf \
+        -o "./budget-$month.pdf" temp.html \
+        --toc \
+        --pdf-engine weasyprint \
+        --css ./pdf.css \
+        --metadata title="$(date -d $month-01 +"%B %Y") Budget"
 
     cd -
 
